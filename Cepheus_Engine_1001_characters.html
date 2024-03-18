@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta http-equiv="content-type" content="text/html; charset=windows-1252">
+	<title>Cepheus Engine - 1,000,001 characters</title>
+	<script src="constants_and_data.js"></script>
+	<script src="names.js"></script>
+	<script src="FileSaver.js"></script>
+	<script src="generic.js"></script>
+	<script src="characterClass.js"></script>
+	<script src="generateCharacters.js"></script>
+	<script src="playerDecisions.js"></script>
+	<script>
+	  (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	  (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	  m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	  })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+	  ga('create', 'UA-100193323-1', 'auto');
+	  ga('send', 'pageview');
+	</script>
+	<link rel="stylesheet" type="text/css" href="traveller.css">
+</head>
+<body onload="backgroundSkillsAvailable();">
+	<h1 class="title">Supplement 1: 1,000,001 characters</h1>
+	<h1 class="titleStrap">CEPHEUS ENGINE</h1>
+	<h1 class="subtitle">Science Fiction Adventure</h1>
+	<h1 class="subtitle">in whatever period you want</h1>
+	<div class="container">
+	<div class="subcontainer">
+	<div class="contained">
+	<h3>Character Generation Options</h3>
+	<table border="0">
+	<tr><td style="text-align:right">Number of Characters:</td><td><input name="numCharacters" value="1001" type="text"></td></tr>
+	<tr><td style="text-align:right"><input name="insertNumbers" type="checkbox" checked="checked"></td><td>Number the characters</td></tr>
+	<tr><td style="text-align:right"><input name="skillsDelimiter" type="checkbox"></td><td>Separate skills by a comma</td></tr>
+	<tr><td style="text-align:right"><input id="skillLinkChar" type="text" maxlength="1" value="-" style="width:12px;" onchange="document.getElementById('linkChar').innerHTML = this.value;"></td><td>Character between skill name and level (e.g. Pilot<span id="linkChar">-</span>1)</td></tr>
+	<tr><td style="text-align:right"><input id="skillSortOpt" type="checkbox" checked></td><td>Sort skills by skill level (highest first) (unchecked = alphabetically sorted)</td></tr>
+	<tr><td style="text-align:right">Sort characters after generation by levels in a skill (highest first):</td>
+	<td> <select id="sortBySkill">
+	<option selected>Do Not Sort</option>
+	<option>Admin</option>
+	<option>Advocate</option>
+	<option>Farming</option>
+	<option>Riding</option>
+	<option>Survival</option>
+	<option>Veterinary Medicine</option>
+	<option>Athletics</option>
+	<option>Battle Dress</option>
+	<option>Bribery</option>
+	<option>Broker</option>
+	<option>Carousing</option>
+	<option>Comms</option>
+	<option>Computer</option>
+	<option>Demolitions</option>
+	<option>Electronics</option>
+	<option>Engineering</option>
+	<option>Gambling</option>
+	<option>Gravitics</option>
+	<option>Jack o' Trades</option>
+	<option>Leadership</option>
+	<option>Linguistics</option>
+	<option>Liaison</option>
+	<option>Mechanics</option>
+	<option>Medicine</option>
+	<option>Navigation</option>
+	<option>Piloting</option>
+	<option>Recon</option>
+	<option>Life Sciences</option>
+	<option>Physical Sciences</option>
+	<option>Social Sciences</option>
+	<option>Space Sciences</option>
+	<option>Steward</option>
+	<option>Streetwise</option>
+	<option>Tactics</option>
+	<option>Zero-G</option>
+	<option>Archery</option>
+	<option>Energy Pistol</option>
+	<option>Energy Rifle</option>
+	<option>Shotgun</option>
+	<option>Slug Pistol</option>
+	<option>Slug Rifle</option>
+	<option>Bay Weapons</option>
+	<option>Heavy Weapons</option>
+	<option>Screens</option>
+	<option>Spinal Mounts</option>
+	<option>Turret Weapons</option>
+	<option>Bludgeoning Weapons</option>
+	<option>Natural Weapons</option>
+	<option>Piercing Weapons</option>
+	<option>Slashing Weapons</option>
+	<option>Grav Vehicle</option>
+	<option>Rotor Aircraft</option>
+	<option>Winged Aircraft</option>
+	<option>Mole</option>
+	<option>Tracked Vehicle</option>
+	<option>Motorboats</option>
+	<option>Ocean Ships</option>
+	<option>Sailing Ships</option>
+	<option>Submarine</option>
+	<option>Wheeled Vehicle</option>	
+	</select>
+	</td></tr> 
+	<tr><td style="text-align:right">Maximum Terms:</td>
+	<td>
+	<select name="maxTerms">
+	<option value="0" />0</option>
+	<option value="1" />1</option>
+	<option value="2" />2</option>
+	<option value="3" />3</option>
+	<option value="4" />4</option>
+	<option value="5" />5</option>
+	<option value="6" />6</option>
+	<option value="7" selected />7</option>
+	</select>
+	</td></tr>
+	<tr><td style="text-align:right">Survival Option:</td>
+	<td><select name="survivalOption">
+		<option value="1" selected>Failed Survival - Mishap Table</option>
+		<option value="0">Failed Survival - DEATH</option>
+	</select></td></tr>
+	<tr><td style="text-align:right">Species:</td>
+	<td><select name="species">
+	<option value="human" selected />Human</option>
+	<option value="esper" />ESPer</option>
+	<option value="avians" />Avians</option>
+	<option value="insectan" />Insectan</option>
+	<option value="merfolk" />Merfolk</option>
+	<option value="reptilian" />Reptilian</option>
+	</select>
+	</td></tr>
+	<tr><td colspan="2" style="text-align:right"><input name="generateCharacters" onclick="startGenerating();" value="Generate" type="button" style="margin-top: 1em;font-size:2em;"></td></tr>
+	</table>
+	</div>
+	</div>
+	<div class="subcontainer">
+	<div class="contained"><h3>Instructions</h3>
+	<p>Click the "Generate" button to be offered a plain text file containing characters generated using the <a href="http://www.drivethrurpg.com/product/186894/Cepheus-Engine-System-Reference-Document">Cepheus Engine</a> rules.  The characters are generated using your browser using javascript.  You may even want to save a copy of this page including its scripts and use it offline.</p>
+	<p>The sliders in each section affect how random decisions are made during character creation.  If the sliders are all in the same position, then each option has the same chance of occuring.  Note that you can force the generator to only try for one Career by having only one Career option slider not on the left.  But given the nature of the Cepheus Engine rules, characters may still try for further careers at random based on your settings; it will pick a career completely at random after the first career if only one is set.</p>
+	<p>To create a band of thugs, put 'Rogue' upto maximum and 'Service Defense' upto about half-way.  Then only choose 'Auto Pistol' and 'Dagger' as the mustering out weapon, 'Slug Pistol' as the only Gun Combat cascade, and 'Slashing Weapons' and 'Natural Weapons' as the only Melee Combat cascade.  Set 'cash benefits' to zero. Now click 'Generate'.</p>
+	<p><b>DISCLAIMER:</b> actually trying to create 1,000,001 characters in one go will probably crash your browser.</p>
+	<h3 style="padding-top:0.50em">Authorship</h3>
+	<p>This code was written by Jonathan Sherlock in April 2017 for the Open Gaming Licence content of the Cepheus Engine.  Others are free to download or use for any purpose including commercial purposes so long as you know this code is staying up here and might be revised from time to time by me.  For any issues with the code, please e-mail me; I have a gmail account "jonathan.a.sherlock".</p>
+	</div><!-- end Instructions div -->
+	</div> <!-- end subcontainer -->
+	</div> <!-- end container -->
+
+	<div class="container">
+	<div class="subcontainer">
+	<div class="contained">
+	<img src="images/imperial-starburst-help-icon.png" class="helpIcon" title="Click for more information" onclick="helpClick('helpWorldTrade');">
+	<h3>World Trade Codes</h3>
+	<input name="TradeCode" value="Ag" onchange="backgroundSkillsAvailable();" type="checkbox" />Agricultural<br />
+	<input name="TradeCode" value="As" onchange="backgroundSkillsAvailable();" type="checkbox" />Asteroid<br />
+	<input name="TradeCode" value="De" onchange="backgroundSkillsAvailable();" type="checkbox" />Desert<br />
+	<input name="TradeCode" value="Fl" onchange="backgroundSkillsAvailable();" type="checkbox" />Fluid Oceans<br />
+	<input name="TradeCode" value="Ga" onchange="backgroundSkillsAvailable();" type="checkbox" />Garden<br />
+	<input name="TradeCode" value="Hi" onchange="backgroundSkillsAvailable();" type="checkbox" />High Population<br />
+	<input name="TradeCode" value="Ht" onchange="backgroundSkillsAvailable();" type="checkbox" />High Technology<br />
+	<input name="TradeCode" value="Ic" onchange="backgroundSkillsAvailable();" type="checkbox" />Ice-Capped<br />
+	<input name="TradeCode" value="In" onchange="backgroundSkillsAvailable();" type="checkbox" />Industrial<br />
+	<input name="TradeCode" value="Lt" onchange="backgroundSkillsAvailable();" type="checkbox" />Low Technology<br />
+	<input name="TradeCode" value="Po" onchange="backgroundSkillsAvailable();" type="checkbox" />Poor<br />
+	<input name="TradeCode" value="Ri" onchange="backgroundSkillsAvailable();" type="checkbox" />Rich<br />
+	<input name="TradeCode" value="Wa" onchange="backgroundSkillsAvailable();" type="checkbox" />Water World<br />
+	<input name="TradeCode" value="Va" onchange="backgroundSkillsAvailable();" type="checkbox" />Vacuum World<br />
+	</div> <!-- end World Trade Codes div -->
+	<div class="contained" style="clear:left">
+	<img src="images/imperial-starburst-help-icon.png" class="helpIcon" title="Click for more information" onclick="helpClick('helpLawLevel');">
+	World Law Level:
+	<select name="Law" onchange="backgroundSkillsAvailable();"/>
+	<option value="0" />0</option>
+	<option value="1" />1</option>
+	<option value="2" />2</option>
+	<option value="3" />3</option>
+	<option value="4" />4</option>
+	<option value="5" selected />5</option>
+	<option value="6" />6</option>
+	<option value="7" />7</option>
+	<option value="8" />8</option>
+	<option value="9" />9</option>
+	<option value="10" />10+</option>
+	</select>
+	</div> <!-- end World Law Level div -->
+	</div> <!-- end subcontainer div -->
+	<div class="subcontainer">
+	<div class="contained">
+	<img src="images/imperial-starburst-help-icon.png" class="helpIcon" title="Click for more information" onclick="helpClick('helpBackgroundSkills');">
+	<h3>Background Skills</h3>
+	<input name="backgroundSkills" id="Admin" min="0" max="10" value="5" type="range" /><label for="Admin">Admin</label><br />
+	<input name="backgroundSkills" id="Advocate" min="0" max="10" value="5" type="range" /><label for="Advocate">Advocate</label><br />
+	<input name="backgroundSkills" id="Animals" min="0" max="10" value="5" type="range" /><label for="Animals">Animals</label><br />
+	<input name="backgroundSkills" id="Broker" min="0" max="10" disabled="disabled" value="0" type="range" /><label for="Broker"><abbr title="Skill available if home world is Industrial">Broker</abbr></label><br />
+	<input name="backgroundSkills" id="Carousing" min="0" max="10" value="5" type="range" /><label for="Carousing">Carousing</label><br />
+	<input name="backgroundSkills" id="Comms" min="0" max="10" value="5" type="range" /><label for="Comms">Comms</label><br />
+	<input name="backgroundSkills" id="Computer" min="0" max="10" value="5" type="range" /><label for="Computer">Computer</label><br />
+	<input name="backgroundSkills" id="Electronics" min="0" max="10" value="5" type="range" /><label for="Electronics">Electronics</label><br />
+	<input name="backgroundSkills" id="Engineering" min="0" max="10" value="5" type="range" /><label for="Engineering">Engineering</label><br />
+	<input name="backgroundSkills" id="Gun Combat" min="0" max="10" value="5" type="range" /><label for="Gun Combat"><abbr title="Skill available if home world law level is less than 7">Gun Combat</abbr></label><br />
+	<input name="backgroundSkills" id="Life Sciences" min="0" max="10" value="5" type="range" /><label for="Life Sciences">Life Sciences</label><br />
+	<input name="backgroundSkills" id="Linguistics" min="0" max="10" value="5" type="range" /><label for="Linguistics">Linguistics</label><br />
+	<input name="backgroundSkills" id="Mechanics" min="0" max="10" value="5" type="range" /><label for="Mechanics">Mechanics</label><br />
+	<input name="backgroundSkills" id="Medicine" min="0" max="10" value="5" type="range" /><label for="Medicine">Medicine</label><br />
+	<input name="backgroundSkills" id="Melee Combat" min="0" max="10" disabled="disabled" value="0" type="range" /><label for="Melee Combat"><abbr title="Skill available if home world law level 7 to 9">Melee Combat</abbr></label><br />
+	<input name="backgroundSkills" id="Physical Sciences" min="0" max="10" value="5" type="range" /><label for="Physical Sciences">Physical Sciences</label><br />
+	<input name="backgroundSkills" id="Social Sciences" min="0" max="10" value="5" type="range" /><label for="Social Sciences">Social Sciences</label><br />
+	<input name="backgroundSkills" id="Space Sciences" min="0" max="10" value="5" type="range" /><label for="Space Sciences">Space Sciences</label><br />
+	<input name="backgroundSkills" id="Streetwise" min="0" max="10" disabled="disabled" value="0" type="range" /><label for="Streetwise"><abbr title="Skill available if home world is High Population">Streetwise</abbr></label><br />
+	<input name="backgroundSkills" id="Survival" min="0" max="10" disabled="disabled" value="0" type="range" /><label for="Survival"><abbr title="Skill available if home world is Low Technology or Desert">Survival</abbr></label><br />
+	<input name="backgroundSkills" id="Watercraft" min="0" max="10" disabled="disabled" value="0" type="range" /><label for="Watercraft"><abbr title="Skill available if home world is Waterworld or Fluid Oceans">Watercraft</abbr></label><br />
+	<input name="backgroundSkills" id="Zero-G" min="0" max="10" disabled="disabled" value="0" type="range" /><label for="Zero-G"><abbr title="Skill available if home world is Asteroid, Ice-capped or Vacuum">Zero-G</abbr></label><br />
+	</div><!-- end Background Skills div -->
+	</div><!-- end subcontainer div -->
+	<div class="subcontainer">
+
+	</div><!-- end subcontainer div -->
+	</div><!-- end container -->
+	<div class="container">
+	<div class="subcontainer">
+	<div class="contained">
+	<img src="images/imperial-starburst-help-icon.png" class="helpIcon" title="Click for more information" onclick="helpClick('helpCareer');">
+	<h3>Chosen Career</h3>
+	<input name="Career" id="Athlete" min="0" max="10" value="0" type="range" />Athlete<br />
+	<input name="Career" id="Aerospace Defense" min="0" max="10" value="0" type="range" /><abbr title="The Air Force">Aerospace Defense</abbr><br />
+	<input name="Career" id="Agent" min="0" max="10" value="0" type="range" />Agent<br />
+	<input name="Career" id="Barbarian" min="0" max="10" value="0" type="range" />Barbarian<br />
+	<input name="Career" id="Belter" min="0" max="10" value="0" type="range" />Belter<br />
+	<input name="Career" id="Bureaucrat" min="0" max="10" value="0" type="range" />Bureaucrat<br />
+	<input name="Career" id="Colonist" min="0" max="10" value="0" type="range" />Colonist<br />
+	<input name="Career" id="Diplomat" min="0" max="10" value="0" type="range" />Diplomat<br />
+	<input name="Career" id="Drifter" min="0" max="10" value="0" type="range" />Drifter<br />
+	<input name="Career" id="Entertainer" min="0" max="10" value="0" type="range" />Entertainer<br />
+	<input name="Career" id="Hunter" min="0" max="10" value="0" type="range" />Hunter<br />
+	<input name="Career" id="Marine" min="0" max="10" value="0" type="range" />Marine<br />
+	<input name="Career" id="Maritime Defense" min="0" max="10" value="0" type="range" /><abbr title="The (Wet) Navy">Maritime Defense</abbr><br />
+	<input name="Career" id="Mercenary" min="0" max="10" value="0" type="range" />Mercenary<br />
+	<input name="Career" id="Merchant" min="0" max="10" value="0" type="range" />Merchant<br />
+	<input name="Career" id="Navy" min="0" max="10" value="0" type="range" />Navy<br />
+	<input name="Career" id="Noble" min="0" max="10" value="0" type="range" />Noble<br />
+	<input name="Career" id="Physician" min="0" max="10" value="0" type="range" />Physician<br />
+	<input name="Career" id="Pirate" min="0" max="10" value="0" type="range" /><abbr title="Aargh!">Pirate</abbr><br />
+	<input name="Career" id="Rogue" min="0" max="10" value="0" type="range" />Rogue<br />
+	<input name="Career" id="Scientist" min="0" max="10" value="0" type="range" />Scientist<br />
+	<input name="Career" id="Scout" min="0" max="10" value="0" type="range" />Scout<br />
+	<input name="Career" id="Surface Defense" min="0" max="10" value="0" type="range" /><abbr title="The Army">Surface Defense</abbr><br />
+	<input name="Career" id="Technician" min="0" max="10" value="0" type="range" />Technician<br />
+	</div><!-- end Chosen Career div -->
+	</div><!-- end subcontainer div -->
+	<div class="subcontainer">
+	<div class="contained">
+	<img src="images/imperial-starburst-help-icon.png" class="helpIcon" title="Click for more information" onclick="helpClick('helpQualfail');">
+	<h3>Preference if qualification / enlistment fails</h3>
+	<input name="failedQualification" id="Quit" min="0" max="10" value="1" type="range" />Stop character generation<br />
+	<input name="failedQualification" id="Drifter" min="0" max="10" value="4" type="range" />Take a term in the Drifters<br />
+	<input name="failedQualification" id="Draft" min="0" max="10" value="5" type="range" />Submit to the Draft<br />
+	</div>
+	<div class="contained">
+	<img src="images/imperial-starburst-help-icon.png" class="helpIcon" title="Click for more information" onclick="helpClick('helpInjuryCrisis');">
+	<h3>Preference if character has an <abbr title="The character had an attribute reduced to zero but recovered to a value of 1">injury or age crisis</abbr></h3>
+	<input name="injuryCrisis" id="Quit" min="0" max="10" value="8" type="range" />Stop character generation<br />
+	<input name="injuryCrisis" id="Drifter" min="0" max="10" value="2" type="range" />Go to Drifter career<br />
+	</div>
+	<div class="contained">
+	<img src="images/imperial-starburst-help-icon.png" class="helpIcon" title="Click for more information" onclick="helpClick('helpCareerCompletion');">
+	<h3 style="padding-bottom:1em;">Preference on completion of a career</h3>
+	<input name="careerCompletion" id="Quit" min="0" max="10" value="3" type="range" />Stop character generation<br />
+	<input name="careerCompletion" id="Go" min="0" max="10" value="8" type="range" />Try another career<br />
+	</div>
+	<div class="contained">
+	<img src="images/imperial-starburst-help-icon.png" class="helpIcon" title="Click for more information" onclick="helpClick('helpTermCompletion');">
+	<h3 style="padding-bottom:1em;">Preference on completion of a term and successful re-enlistment</h3>
+	<input name="termCompletion" id="Quit" min="0" max="10" value="0" type="range" />Exit career<br />
+	<input name="termCompletion" id="Go" min="0" max="10" value="10" type="range" />Go another term<br />
+	</div>
+	<div class="contained">
+	<img src="images/imperial-starburst-help-icon.png" class="helpIcon" title="Click for more information" onclick="helpClick('helpSkillTable');">
+	<h3 style="padding-bottom:1em;">Skill table preference</h3>
+	<input name="skillTable" id="personalDev" min="0" max="10" value="5" type="range" />Personal Development<br />
+	<input name="skillTable" id="service" min="0" max="10" value="5" type="range" />Service<br />
+	<input name="skillTable" id="specialist" min="0" max="10" value="5" type="range" />Specialist<br />
+	<input name="skillTable" id="advEdu" min="0" max="10" value="5" type="range" /><abbr title="This table is automatically unavailable if a character's education is less than 8">Advanced Education</abbr><br />
+	</div>
+	<div class="contained">
+	<img src="images/imperial-starburst-help-icon.png" class="helpIcon" title="Click for more information" onclick="helpClick('helpMusteringOutTable');">
+	<h3>Mustering Out table preference</h3>
+	<input name="benefitTable" id="material" min="0" max="10" value="5" type="range" />Material Benefits<br />
+	<input name="benefitTable" id="cash" min="0" max="10" value="5" type="range" />Cash Benefits<br />
+	</div>
+	<div class="contained">
+	<img src="images/imperial-starburst-help-icon.png" class="helpIcon" title="Click for more information" onclick="helpClick('help2ndWeapon');">
+	<h3>Preference for subsequent receipt of Weapon benefit</h3>
+	<input name="subsequentWeaponChoice" id="Skill in weapon" min="0" max="10" value="10" type="range" />Skill in weapon<br />
+	<input name="subsequentWeaponChoice" id="New Weapon" min="0" max="10" value="0" type="range" />New Weapon<br />
+	</div>
+	</div><!-- end subcontainer div -->
+	<div class="subcontainer">
+	<div class="contained">
+	<img src="images/imperial-starburst-help-icon.png" class="helpIcon" title="Click for more information" onclick="helpClick('helpWeaponChoice');">
+	<h3 class="contained">Preference for weapon received in mustering out</h3>
+	<input name="weaponChoice" id="Dagger" min="0" max="10" value="0" type="range" />Dagger<br />
+	<input name="weaponChoice" id="Spear" min="0" max="10" value="0" type="range" />Spear<br />
+	<input name="weaponChoice" id="Pike" min="0" max="10" value="0" type="range" />Pike<br />
+	<input name="weaponChoice" id="Sword" min="0" max="10" value="0" type="range" />Sword<br />
+	<input name="weaponChoice" id="Broadsword" min="0" max="10" value="0" type="range" />Broadsword<br />
+	<input name="weaponChoice" id="Halberd" min="0" max="10" value="0" type="range" />Halberd<br />
+	<input name="weaponChoice" id="Bayonet" min="0" max="10" value="0" type="range" />Bayonet<br />
+	<input name="weaponChoice" id="Blade" min="0" max="10" value="0" type="range" />Blade<br />
+	<input name="weaponChoice" id="Cutlass" min="0" max="10" value="0" type="range" />Cutlass<br />
+	<input name="weaponChoice" id="Foil" min="0" max="10" value="0" type="range" />Foil<br />
+	<input name="weaponChoice" id="Bow" min="0" max="10" value="0" type="range" />Bow<br />
+	<input name="weaponChoice" id="Crossbow" min="0" max="10" value="0" type="range" />Crossbow<br />
+	<input name="weaponChoice" id="Revolver" min="0" max="10" value="0" type="range" />Revolver<br />
+	<input name="weaponChoice" id="Auto Pistol" min="0" max="10" value="0" type="range" />Auto Pistol<br />
+	<input name="weaponChoice" id="Carbine" min="0" max="10" value="0" type="range" />Carbine<br />
+	<input name="weaponChoice" id="Rifle" min="0" max="10" value="0" type="range" />Rifle<br />
+	<input name="weaponChoice" id="Shotgun" min="0" max="10" value="0" type="range" />Shotgun<br />
+	<input name="weaponChoice" id="Submachinegun" min="0" max="10" value="0" type="range" />Submachinegun<br />
+	<input name="weaponChoice" id="Auto Rifle" min="0" max="10" value="0" type="range" />Auto Rifle<br />
+	<input name="weaponChoice" id="Assault Rifle" min="0" max="10" value="0" type="range" />Assault Rifle<br />
+	<input name="weaponChoice" id="Body Pistol" min="0" max="10" value="0" type="range" />Body Pistol<br />
+	<input name="weaponChoice" id="Laser Carbine" min="0" max="10" value="0" type="range" />Laser Carbine<br />
+	<input name="weaponChoice" id="Snub Pistol" min="0" max="10" value="0" type="range" />Snub Pistol<br />
+	<input name="weaponChoice" id="Accelerator Rifle" min="0" max="10" value="0" type="range" />Accelerator Rifle<br />
+	<input name="weaponChoice" id="Laser Rifle" min="0" max="10" value="0" type="range" />Laser Rifle<br />
+	<input name="weaponChoice" id="Advanced Combat Rifle" min="0" max="10" value="0" type="range" />Advanced Combat Rifle<br />
+	<input name="weaponChoice" id="Gauss Rifle" min="0" max="10" value="0" type="range" />Gauss Rifle<br />
+	<input name="weaponChoice" id="Laser Pistol" min="0" max="10" value="0" type="range" />Laser Pistol<br />
+	</div>
+	</div> <!-- end subcontainer -->
+	</div> <!-- end container -->
+	<div class="container">
+	<img src="images/imperial-starburst-help-icon.png" style="position:relative; left:-75em; top:-0.5em" class="helpIcon" title="Click for more information" onclick="helpClick('helpCascade');">
+	<h3  class="white">Cascade Skill Preferences</h3>
+	<div class="subcontainer">
+	<div class="containedAlt"><h4>Gun Combat</h4>
+		<input name="gunCombatCascade" id="Archery" min="0" max="10" value="5" type="range" />Archery<br />
+		<input name="gunCombatCascade" id="Energy Pistol" min="0" max="10" value="5" type="range" />Energy Pistol<br />
+		<input name="gunCombatCascade" id="Energy Rifle" min="0" max="10" value="5" type="range" />Energy Rifle<br />
+		<input name="gunCombatCascade" id="Shotgun" min="0" max="10" value="5" type="range" />Shotgun<br />
+		<input name="gunCombatCascade" id="Slug Pistol" min="0" max="10" value="5" type="range" />Slug Pistol<br />
+		<input name="gunCombatCascade" id="Slug Rifle" min="0" max="10" value="5" type="range" />Slug Rifle<br />
+	</div>
+	<div class="containedAlt"><h4>Melee Combat</h4>
+		<input name="meleeCombatCascade" id="Bludgeoning Weapons" min="0" max="10" value="5" type="range" />Bludgeoning Weapons<br />
+		<input name="meleeCombatCascade" id="Natural Weapons" min="0" max="10" value="5" type="range" />Natural Weapons<br />
+		<input name="meleeCombatCascade" id="Piercing Weapons" min="0" max="10" value="5" type="range" />Piercing Weapons<br />
+		<input name="meleeCombatCascade" id="Slashing Weapons" min="0" max="10" value="5" type="range" />Slashing Weapons<br />
+	</div>
+	<div class="containedAlt"><h4>Gunnery</h4>
+		<input name="gunneryCascade" id="Bay Weapons" min="0" max="10" value="5" type="range" />Bay Weapons<br />
+		<input name="gunneryCascade" id="Heavy Weapons" min="0" max="10" value="5" type="range" />Heavy Weapons<br />
+		<input name="gunneryCascade" id="Screens" min="0" max="10" value="5" type="range" />Screens<br />
+		<input name="gunneryCascade" id="Spinal Mounts" min="0" max="10" value="5" type="range" />Spinal Mounts<br />
+		<input name="gunneryCascade" id="Turret Weapons" min="0" max="10" value="5" type="range" />Turret Weapons<br />
+	</div>
+	</div> <!-- end subcontainer -->
+	<div class="subcontainer">
+	<div class="containedAlt"><h4>Vehicle</h4>
+		<input name="vehicleCascade" id="Aircraft" min="0" max="10" value="5" type="range" /><abbr title="This is also a cascade skill - check settings for Aircraft Cascade">Aircraft</abbr><br />
+		<input name="vehicleCascade" id="Mole" min="0" max="10" value="5" type="range" />Mole<br />
+		<input name="vehicleCascade" id="Tracked Vehicle" min="0" max="10" value="5" type="range" />Tracked Vehicle<br />
+		<input name="vehicleCascade" id="Watercraft" min="0" max="10" value="5" type="range" /><abbr title="This is also a cascade skill - check settings for Watercraft Cascade">Watercraft</abbr><br />
+		<input name="vehicleCascade" id="Wheeled Vehicle" min="0" max="10" value="5" type="range" />Wheeled Vehicle<br />
+	</div>
+	<div class="containedAlt"><h4>Aircraft</h4>
+		<input name="aircraftCascade" id="Grav Vehicle" min="0" max="10" value="5" type="range" />Grav Vehicle<br />
+		<input name="aircraftCascade" id="Rotor Aircraft" min="0" max="10" value="5" type="range" />Rotor Aircraft<br />
+		<input name="aircraftCascade" id="Winged Aircraft" min="0" max="10" value="5" type="range" />Winged Aircraft<br />
+	</div>
+	<div class="containedAlt"><h4>Watercraft</h4>
+		<input name="watercraftCascade" id="Motorboats" min="0" max="10" value="5" type="range" />Motorboats<br />
+		<input name="watercraftCascade" id="Ocean Ships" min="0" max="10" value="5" type="range" />Ocean Ships<br />
+		<input name="watercraftCascade" id="Sailing Ships" min="0" max="10" value="5" type="range" />Sailing Ships<br />
+		<input name="watercraftCascade" id="Submarine" min="0" max="10" value="5" type="range" />Submarine<br />
+	</div>
+	</div> <!-- end subcontainer -->
+	<div class="subcontainer">
+	<div class="containedAlt"><h4>Sciences</h4>
+		<input name="sciencesCascade" id="Life Sciences" min="0" max="10" value="5" type="range" />Life Sciences<br />
+		<input name="sciencesCascade" id="Physical Sciences" min="0" max="10" value="5" type="range" />Physical Sciences<br />
+		<input name="sciencesCascade" id="Social Sciences" min="0" max="10" value="5" type="range" />Social Sciences<br />
+		<input name="sciencesCascade" id="Space Sciences" min="0" max="10" value="5" type="range" />Space Sciences<br />
+	</div>
+	<div class="containedAlt"><h4>Animals</h4>
+		<input name="animalsCascade" id="Farming" min="0" max="10" value="5" type="range" />Farming<br />
+		<input name="animalsCascade" id="Riding" min="0" max="10" value="5" type="range" />Riding<br />
+		<input name="animalsCascade" id="Survival" min="0" max="10" value="5" type="range" />Survival<br />
+		<input name="animalsCascade" id="Veterinary Medicine" min="0" max="10" value="5" type="range" />Veterinary Medicine<br />
+	</div>
+	</div> <!-- end subcontainer -->
+	</div> <!-- end container -->
+	<div id="helpWorldTrade" class="helpText" onclick="disappear(this);">
+	<p>Tick all the trade codes that apply to the characters' homeworld.  Note that several possible trade codes are not present because they have no effect on background skills (e.g. "Non Industrial").</p>
+	<p>In the Cepheus Engine, the player is free to choose background skills as made available by world trade codes and world law level and from the education list.</p>
+	<p>As a consequence, unchecking a trade code may make certain skills unavailable to be chosen. That is the only use of trade codes by this character generator.</p>
+	<p><b>Click anywhere in this box to close it.</b></p>
+	</div>
+	<div id="helpLawLevel" class="helpText" onclick="disappear(this);">
+	<p>Select the law level that applies to the characters' homeworld.  A law level of 0-6 makes "Gun Combat-0" available as a background skill.  Law level of 7-9 makes "Melee Combat-0" available.  A law level of 10+ makes neither available.</p>
+	<p>In the Cepheus Engine, the player is free to choose background skills as made available by world trade codes and world law level and from the education list.</p>
+	<p>As a consequence, selecting the law level of the world makes Gun Combat and Melee Combat available or unavailable to be chosen. That is the only use of law level by this character generator.</p>
+	<p><b>Click anywhere in this box to close it.</b></p>
+	</div>
+	<div id="helpBackgroundSkills" class="helpText" onclick="disappear(this);">
+	<p>Customise generated characters' interest in background skills here.  The more the slider next to the skill is moved to the right, the greater the chance of that skill being included.</p>
+	<p>By default, all skills are set to the middle except for those that rely on trade codes.  To enable skills that require trade codes, ensure that trade code is ticked.</p>
+	<p>To eliminate a skill from selection for characters, slide its bar all the way to the left.  It is recommended you select five or more background skills so that characters with an EDU of 12 get the full five skills.</p>
+	<p>If there are less background skills selected than a characters' EDU mod, all selected background skills are added and the 'extra' slot is lost.  If no background skills are selected, the generator will pick skills at random from the whole list.</p>
+	<p><b>Click anywhere in this box to close it.</b></p>
+	</div>
+	<div id="helpCareer" class="helpText" onclick="disappear(this);" style="height:500px;">
+	<p>Select the probability of a character attempting to enter each career here.  Note that all careers start out at chance 'zero' by default, but the generator treats this as giving any career an equal chance.</p>
+	<p>If you only want one career, leave all the others at zero and slide that career's bar anywhere to the right.  Note, however, that in the Cepheus Engine, a character can decide to try for any number of careers up to the maximum terms (7).</p>
+	<p>If only one career is selected, subsequent careers will be decided by an even-chance random selection of all remaining careers.</p>
+	<p>Therefore, it is recommended that the main career selected be fully moved to the right, and then second and third preferences given lower probabilities of being selected to control character backgrounds.  However, random chance selections can be really interesting.</p>  
+	<p>Intelligently Selecting careers will <i>ignore</i> your career preferences for a character's <i>first</i> career choice only, and instead select a career based on each generated UPP, weighting the attribute modifier for the relevant survival characteristic heavily, then the attribute modifier for the qualification characteristic.</p>
+	<p>A note on sliding bars:  each bar assigns a value of 0 to 10 to that selection.  The generator then adds up all values, and each value's chance of random selection is its value divided by the total values.  For example, if there are three values and Value A is 5, Value B is 3 and Value C is 2, they will have a random chance of 50%, 30% and 20% respectively.  If Value B is set to 5, they will now have chances of 41.6%, 41.6% and 16.16%.</p>
+	<p><b>Click anywhere in this box to close it.</b></p>
+	</div>
+	<div id="helpQualfail" class="helpText" onclick="disappear(this);" style="height:360px;">
+	<p>If a character fails a qualification roll, what do you want them to do next?  They can submit to the draft (automatic entry into random military career, no commission possible in term 1), try another career, or give up.</p>
+	<p>This can mean a few characters are generated who are 'non-starters' - 18 year olds with only a UPP and background skills.  But leaving this at zero means characters will keep trying until they reach the maximum terms available or no careers are left.</p>
+	<p>A note on sliding bars:  each bar assigns a value of 0 to 10 to that selection.  The generator then adds up all values, and each value's chance of random selection is its value divided by the total values.  For example, if there are three values and Value A is 5, Value B is 3 and Value C is 2, they will have a random chance of 50%, 30% and 20% respectively.  If Value B is set to 5, they will now have chances of 41.6%, 41.6% and 16.16%.</p>
+	<p><b>Click anywhere in this box to close it.</b></p>
+	</div>
+	<div id="helpInjuryCrisis" class="helpText" onclick="disappear(this);" style="height:420px;">
+	<p>An injury or age crisis occurs whenever a survival mishap or ageing reduces a characteristic to zero. Damage that does not reduce a characteristic to zero is healed at Cr5000 per point, which can become a debt paid later, often by mustering out benefits.  But 1D x Cr10,000 must be paid <i>immediately</i> by the character in an injury or ageing crisis; if not, the character dies.   If the money is paid, the characteristic is only restored to a value of '1'.</p>
+	<p>Usually such a crisis will kill the character, but occasionally they have money in the bank from a previous career and can pay this bill.  In such a situation, the character automatically fails qualification rolls but may take Drifter terms.  This is a risk, given that the next injury might hit the characteristic now at value '1'.</p>
+	<p>A note on sliding bars:  each bar assigns a value of 0 to 10 to that selection.  The generator then adds up all values, and each value's chance of random selection is its value divided by the total values.  For example, if there are three values and Value A is 5, Value B is 3 and Value C is 2, they will have a random chance of 50%, 30% and 20% respectively.  If Value B is set to 5, they will now have chances of 41.6%, 41.6% and 16.16%.</p>
+	<p><b>Click anywhere in this box to close it.</b></p>
+	</div>
+	<div id="helpCareerCompletion" class="helpText" onclick="disappear(this);"  style="height:360px;">
+	<p>When a character ends a career through discharge, failure of the reenlistment roll they need to choose whether they wish to try to qualify for further careers, or stop character generation.  This value is also used to decide how likely it is the character will continue in their current career on a successful reenlistment (although a roll of 12 means they must continue).</p>
+	<p>A higher 'Stop character generation' value will lead to characters that are less likely to try to qualify for new careers after their current careers.  They will tend to be younger characters.</p>
+	<p>A note on sliding bars:  each bar assigns a value of 0 to 10 to that selection.  The generator then adds up all values, and each value's chance of random selection is its value divided by the total values.  For example, if there are three values and Value A is 5, Value B is 3 and Value C is 2, they will have a random chance of 50%, 30% and 20% respectively.  If Value B is set to 5, they will now have chances of 41.6%, 41.6% and 16.16%.</p>
+	<p><b>Click anywhere in this box to close it.</b></p>
+	</div>
+	<div id="helpTermCompletion" class="helpText" onclick="disappear(this);"  style="height:300px;">
+	<p>This value is used to decide how likely it is the character will continue in their current career on a successful reenlistment (although a roll of 12 means they must continue).</p>
+	<p>A higher 'Exit Career' value will lead to characters that are less likely to continue in their current years.  They will tend to characters with a shorter time in a wider variety of careers.</p>
+	<p>A note on sliding bars:  each bar assigns a value of 0 to 10 to that selection.  The generator then adds up all values, and each value's chance of random selection is its value divided by the total values.  For example, if there are three values and Value A is 5, Value B is 3 and Value C is 2, they will have a random chance of 50%, 30% and 20% respectively.  If Value B is set to 5, they will now have chances of 41.6%, 41.6% and 16.16%.</p>
+	<p><b>Click anywhere in this box to close it.</b></p>
+	</div>
+	<div id="helpSkillTable" class="helpText" onclick="disappear(this);">
+	<p>These sliders set the likelihood for each skill table.  Note that if the character does not have an Education score of at least 8, the Advanced Education will be ignored and the remaining three will be used to make a decision.  My own preference as a player was for more skills than attribute scores, and I generally turn Personal Development down.</p>
+	<p>A note on sliding bars:  each bar assigns a value of 0 to 10 to that selection.  The generator then adds up all values, and each value's chance of random selection is its value divided by the total values.  For example, if there are three values and Value A is 5, Value B is 3 and Value C is 2, they will have a random chance of 50%, 30% and 20% respectively.  If Value B is set to 5, they will now have chances of 41.6%, 41.6% and 16.16%.</p>
+	<p><b>Click anywhere in this box to close it.</b></p>
+	</div>
+	<div id="helpMusteringOutTable" class="helpText" onclick="disappear(this);">
+	<p>Set the proportion of material benefits and cash benefits here.  However high you set the cash benefits, the maximum number of rolls on the cash table is three.</p>
+	<p>A note on sliding bars:  each bar assigns a value of 0 to 10 to that selection.  The generator then adds up all values, and each value's chance of random selection is its value divided by the total values.  For example, if there are three values and Value A is 5, Value B is 3 and Value C is 2, they will have a random chance of 50%, 30% and 20% respectively.  If Value B is set to 5, they will now have chances of 41.6%, 41.6% and 16.16%.</p>
+	<p><b>Click anywhere in this box to close it.</b></p>
+	</div>
+	<div id="helpWeaponChoice" class="helpText" onclick="disappear(this);">
+	<p>When a character receives the 'Weapon' benefit on mustering out, they must decide on a weapon.  Adjust the sliders to reflect the preferred weapons to be received by characters.</p>
+	<p>A note on sliding bars:  each bar assigns a value of 0 to 10 to that selection.  The generator then adds up all values, and each value's chance of random selection is its value divided by the total values.  For example, if there are three values and Value A is 5, Value B is 3 and Value C is 2, they will have a random chance of 50%, 30% and 20% respectively.  If Value B is set to 5, they will now have chances of 41.6%, 41.6% and 16.16%.</p>
+	<p><b>Click anywhere in this box to close it.</b></p>
+	</div>
+	<div id="help2ndWeapon" class="helpText" onclick="disappear(this);">
+	<p>When a character receives the 'Weapon' benefit on mustering out for a 2nd or subsequent time, they must decide whether to take another weapon or a skill in a weapon that they have.  Which weapon they want is decided by the 'Preference for weapon received in mustering out.'</p>
+	<p>A note on sliding bars:  each bar assigns a value of 0 to 10 to that selection.  The generator then adds up all values, and each value's chance of random selection is its value divided by the total values.  For example, if there are three values and Value A is 5, Value B is 3 and Value C is 2, they will have a random chance of 50%, 30% and 20% respectively.  If Value B is set to 5, they will now have chances of 41.6%, 41.6% and 16.16%.</p>
+	<p><b>Click anywhere in this box to close it.</b></p>
+	</div>
+	<div id="helpCascade" class="helpText" onclick="disappear(this);">
+	<p>Each of these sets determines the decision by the characters on receipt of each cascade skill.  One value I favour is to only have 'Wheeled Vehicle' and 'Aircraft' above zero for the Vehicle Cascade.  Then only have Grav Vehicle under Aircraft above zero.  This effectively means characters choose between Wheeled Vehicle or Grav Vehicle - my vision of the choices available in a future urban environment.</p>
+	<p>A note on sliding bars:  each bar assigns a value of 0 to 10 to that selection.  The generator then adds up all values, and each value's chance of random selection is its value divided by the total values.  For example, if there are three values and Value A is 5, Value B is 3 and Value C is 2, they will have a random chance of 50%, 30% and 20% respectively.  If Value B is set to 5, they will now have chances of 41.6%, 41.6% and 16.16%.</p>
+	<p><b>Click anywhere in this box to close it.</b></p>
+	</div>
+</body>
+</html>
